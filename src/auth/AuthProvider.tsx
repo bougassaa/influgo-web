@@ -16,7 +16,7 @@ function AuthProvider({children}: {children: ReactNode}) {
 
     const authContextValue = {
         signIn: (username: string, password: string) => {
-            axios.post('http://127.0.0.1:8000/api/login', {username: username, password: password})
+            axios.post('login', {username: username, password: password})
                 .then(response => {
                     if (response.status === 200) {
                         localStorage.setItem(authStorageKey, response.data.token);

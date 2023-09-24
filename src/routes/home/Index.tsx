@@ -1,14 +1,11 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import MainPage from "../../layouts/MainPage";
 
 function Index() {
     return (
-        <div>
-            <h1>Login 🤓</h1>
-            <div>
-                <Link to="/signin">Sign In</Link>
-            </div>
-        </div>
+        <MainPage title="Accueil">
+
+        </MainPage>
     );
 }
 
