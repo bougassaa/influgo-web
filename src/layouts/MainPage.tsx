@@ -1,7 +1,8 @@
 import React, {ReactNode, useState} from 'react';
-import {Breadcrumb, Button, Layout, Menu, theme} from "antd";
+import {Button, Layout, Menu, theme} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import SignInModal from "../components/SignInModal";
+import {useAuth} from "../auth/AuthProvider";
 
 const { Header, Content, Footer } = Layout;
 
@@ -15,6 +16,8 @@ const items = new Array(6).fill(null).map((_, index) => ({
 }));
 
 function MainPage({children, title}: {children?: ReactNode, title: string}) {
+    const {isSigned, signOut} = useAuth();
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -32,10 +35,14 @@ function MainPage({children, title}: {children?: ReactNode, title: string}) {
                         defaultSelectedKeys={['2']}
                         items={items}
                     />
-                    <div style={{display: "flex", gap: 6}}>
-                        <Button icon={<UserOutlined />} ghost onClick={() => setOpenSignIn(true)}>Sign In</Button>
-                        <Button>Sign Up</Button>
-                    </div>
+                    {
+                        isSigned ?
+                        <Button onClick={signOut}>Log out</Button> :
+                        <div style={{display: "flex", gap: 6}}>
+                            <Button icon={<UserOutlined />} ghost onClick={() => setOpenSignIn(true)}>Sign In</Button>
+                            <Button>Sign Up</Button>
+                        </div>
+                    }
                 </Header>
                 <Content style={{ padding: '30px 50px' }}>
                     <h1>{title}</h1>

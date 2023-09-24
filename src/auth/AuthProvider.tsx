@@ -1,10 +1,10 @@
-import React, {createContext, ReactNode, useContext, useState} from 'react';
+import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import axios from "axios";
 
 type AuthContextType = {
     signIn: (username: string, password: string) => void;
     signOut: () => void;
-    isSigned: () => boolean;
+    isSigned: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -13,6 +13,12 @@ const authStorageKey = 'auth_token';
 
 function AuthProvider({children}: {children: ReactNode}) {
     const [signed, setSigned] = useState(false);
+
+    useEffect(() => {
+        if (!!localStorage.getItem(authStorageKey)) {
+            setSigned(true);
+        }
+    }, [])
 
     const authContextValue = {
         signIn: (username: string, password: string) => {
@@ -31,15 +37,7 @@ function AuthProvider({children}: {children: ReactNode}) {
             localStorage.removeItem(authStorageKey);
             setSigned(false);
         },
-        isSigned: () => {
-            if (!!localStorage.getItem(authStorageKey)) {
-                if (!signed) {
-                    setSigned(true);
-                }
-                return true;
-            }
-            return false;
-        }
+        isSigned: signed
     }
 
     return (
