@@ -6,10 +6,6 @@ import {useAuth} from "../auth/AuthProvider";
 function SignInModal({open = false, openState}: {open: boolean, openState: React.Dispatch<any>}) {
     const {signIn} = useAuth();
 
-    const handleOk = () => {
-        openState(false);
-    };
-
     const handleCancel = () => {
         openState(false);
     };
@@ -49,13 +45,11 @@ function SignInModal({open = false, openState}: {open: boolean, openState: React
                     <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
-                    <div style={{marginTop: 8}}>
-                        <a href="#">
-                            Forgot password
-                        </a>
-                    </div>
+                    <a href="#" style={{float: "right"}}>
+                        Forgot password
+                    </a>
                 </Form.Item>
-                <Form.Item>
+                <Form.Item noStyle>
                     <Button type="primary" htmlType="submit" block size="middle">
                         Log in
                     </Button>

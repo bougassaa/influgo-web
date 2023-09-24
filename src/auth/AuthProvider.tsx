@@ -18,7 +18,7 @@ function AuthProvider({children}: {children: ReactNode}) {
         if (!!localStorage.getItem(authStorageKey)) {
             setSigned(true);
         }
-    }, [])
+    }, []);
 
     const authContextValue = {
         signIn: (username: string, password: string) => {
