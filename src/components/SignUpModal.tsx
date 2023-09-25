@@ -58,7 +58,7 @@ function SignUpModal({open = false, openState, openSignIn}: {
                footer={null}
                onCancel={handleCancel}>
             {signUpError.length > 0 && (
-                <Alert message={signUpError} type="error" style={{marginBottom: 16}} />
+                <Alert message={signUpError} type="error" style={{marginBottom: 16, whiteSpace: "pre-wrap"}} />
             )}
             <Form form={form}
                   name="signup"
