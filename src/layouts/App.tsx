@@ -4,9 +4,11 @@ import AuthProvider from "../auth/AuthProvider";
 import Index from "../routes/home/Index";
 import {IntlProvider} from "react-intl";
 import messages from "../lang/fr.json";
+import NotFoundPage from "../components/NotFoundPage";
 
 const routes = createBrowserRouter([
-    {path: '/', element: <Index />}
+    {path: '/', element: <Index />},
+    {path: '*', element: <NotFoundPage />},
 ]);
 
 const App: React.FC = () => (

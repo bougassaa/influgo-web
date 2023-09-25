@@ -1,3 +1,27 @@
 {
-  "home": "Accueil"
+  "home": "Accueil",
+  "or": "Ou",
+  "et": "Et",
+  "email": "Adresse e-mail",
+  "password": "Mot de passe",
+  "first_name": "Prénom",
+  "last_name": "Nom",
+
+  "go_home": "Aller en page d'accueil",
+  "page_not_found": "La page recherchée n'existe pas",
+
+  "signin_title": "Connectez-vous à Influgo",
+  "signin_action": "Connexion",
+  "signin_successful": "👋 Bonjour ! Vous êtes connecté sur Influgo",
+  "signin_failed": "Authentification échoué ! Vérifiez l'adresse e-mail et/ou le mot de passe.",
+  "signin_remember": "Se souvenir de moi",
+  "signin_forgot_password": "Mot de passe oublié",
+  "signin_create_account": "Créer un compte !",
+  "signin_not_empty_username": "Renseignez votre adresse e-mail",
+  "signin_not_empty_password": "Renseignez votre adresse mot de passe",
+
+  "signup_title": "Inscrivez-vous à Influgo",
+  "signup_action": "S'inscrire !",
+  "signup_duplicate_email": "Compte existant avec cet e-mail",
+  "signup_log_account": "Connectez-vous à votre compte"
 }

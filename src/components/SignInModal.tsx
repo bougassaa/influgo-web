@@ -1,24 +1,54 @@
-import React from 'react';
-import {Modal, Button, Checkbox, Form, Input} from "antd";
+import React, {useState} from 'react';
+import {Modal, Button, Checkbox, Form, Input, Alert, message} from "antd";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {useAuth} from "../auth/AuthProvider";
+import {useIntl} from "react-intl";
 
-function SignInModal({open = false, openState}: {open: boolean, openState: React.Dispatch<any>}) {
+function SignInModal({open = false, openState, openSignUp}: {
+    open: boolean, openState: React.Dispatch<any>, openSignUp: React.Dispatch<any>
+}) {
+    const intl = useIntl();
     const {signIn} = useAuth();
+
+    const [signInFailed, setSignInFailed] = useState(false);
 
     const handleCancel = () => {
         openState(false);
     };
 
-    const onFinish = (values: any) => {
-        signIn(values.username, values.password);
+    const handleOpenSignUp = () => {
+        openState(false);
+        openSignUp(true);
     };
 
+    const onFinish = (values: any) => {
+        signIn(values.username, values.password)
+            .then(r => {
+                openState(false);
+                message.open({
+                    content: intl.$t({id: 'signin_successful'})
+                })
+            })
+            .catch(_ => {
+                setSignInFailed(true);
+            })
+    };
+
+    const ModalHeader = () => (
+        <div style={{paddingBottom: 15}}>
+            {intl.$t({id: 'signin_title'})}
+        </div>
+    )
+
     return (
-        <Modal title="Connectez-vous à Influgo"
+        <Modal title={<ModalHeader />}
+               width={420}
                open={open}
                footer={null}
                onCancel={handleCancel}>
+            {signInFailed && (
+                <Alert message={intl.$t({id: 'signin_failed'})} type="error" style={{marginBottom: 16}} />
+            )}
             <Form
                 name="normal_login"
                 size="large"
@@ -27,34 +57,36 @@ function SignInModal({open = false, openState}: {open: boolean, openState: React
             >
                 <Form.Item
                     name="username"
-                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                    rules={[{ required: true, message: intl.$t({id: 'signin_not_empty_username'}) }]}
                 >
-                    <Input prefix={<UserOutlined />} placeholder="Username" />
+                    <Input prefix={<UserOutlined />} type="email" placeholder={intl.$t({id: 'email'})} />
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                    rules={[{ required: true, message: intl.$t({id: 'signin_not_empty_password'}) }]}
                 >
-                    <Input
+                    <Input.Password
                         prefix={<LockOutlined />}
-                        type="password"
-                        placeholder="Password"
+                        placeholder={intl.$t({id: 'password'})}
                     />
                 </Form.Item>
                 <Form.Item>
                     <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <Checkbox>Remember me</Checkbox>
+                        <Checkbox>{intl.$t({id: 'signin_remember'})}</Checkbox>
                     </Form.Item>
-                    <a href="#" style={{float: "right"}}>
-                        Forgot password
-                    </a>
+                    <Button size="small" type="link" style={{float: "right"}}>
+                        {intl.$t({id: 'signin_forgot_password'})}
+                    </Button>
                 </Form.Item>
                 <Form.Item noStyle>
                     <Button type="primary" htmlType="submit" block size="middle">
-                        Log in
+                        {intl.$t({id: 'signin_action'})}
                     </Button>
                     <div style={{textAlign: "center", marginTop: 8}}>
-                        Or <a href="#">register now!</a>
+                        {intl.$t({id: 'or'})}
+                        <Button type="link" size="small" onClick={handleOpenSignUp}>
+                            {intl.$t({id: 'signin_create_account'})}
+                        </Button>
                     </div>
                 </Form.Item>
             </Form>

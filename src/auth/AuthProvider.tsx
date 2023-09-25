@@ -2,7 +2,7 @@ import React, {createContext, ReactNode, useContext, useEffect, useState} from '
 import axios from "axios";
 
 type AuthContextType = {
-    signIn: (username: string, password: string) => void;
+    signIn: (username: string, password: string) => Promise<boolean>;
     signOut: () => void;
     isSigned: boolean;
 };
@@ -21,17 +21,15 @@ function AuthProvider({children}: {children: ReactNode}) {
     }, []);
 
     const authContextValue = {
-        signIn: (username: string, password: string) => {
-            axios.post('login', {username: username, password: password})
-                .then(response => {
-                    if (response.status === 200) {
-                        localStorage.setItem(authStorageKey, response.data.token);
-                        setSigned(true);
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        signIn: async (username: string, password: string) => {
+            const response = await axios.post('login', {username: username, password: password});
+            if (response.status === 200) {
+                localStorage.setItem(authStorageKey, response.data.token);
+                setSigned(true);
+                return true;
+            } else {
+                return false;
+            }
         },
         signOut: () => {
             localStorage.removeItem(authStorageKey);

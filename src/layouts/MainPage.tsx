@@ -2,6 +2,7 @@ import React, {ReactNode, useState} from 'react';
 import {Button, Layout, Menu, theme} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import SignInModal from "../components/SignInModal";
+import SignUpModal from "../components/SignUpModal";
 import {useAuth} from "../auth/AuthProvider";
 
 const { Header, Content, Footer } = Layout;
@@ -23,6 +24,7 @@ function MainPage({children, title}: {children?: ReactNode, title: string}) {
     } = theme.useToken();
 
     const [openSignIn, setOpenSignIn] = useState(false);
+    const [openSignUp, setOpenSignUp] = useState(false);
 
     return (
         <>
@@ -40,11 +42,11 @@ function MainPage({children, title}: {children?: ReactNode, title: string}) {
                         <Button onClick={signOut}>Log out</Button> :
                         <div style={{display: "flex", gap: 6}}>
                             <Button icon={<UserOutlined />} ghost onClick={() => setOpenSignIn(true)}>Sign In</Button>
-                            <Button>Sign Up</Button>
+                            <Button onClick={() => setOpenSignUp(true)}>Sign Up</Button>
                         </div>
                     }
                 </Header>
-                <Content style={{ padding: '30px 50px' }}>
+                <Content style={{ padding: '0 50px' }}>
                     <h1>{title}</h1>
                     <div style={{ padding: 24, background: colorBgContainer }}>
                         {children}
@@ -52,7 +54,10 @@ function MainPage({children, title}: {children?: ReactNode, title: string}) {
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
-            <SignInModal open={openSignIn} openState={setOpenSignIn} />
+            {!isSigned && <>
+                <SignInModal open={openSignIn} openState={setOpenSignIn} openSignUp={setOpenSignUp}/>
+                <SignUpModal open={openSignUp} openState={setOpenSignUp} openSignIn={setOpenSignIn}/>
+            </>}
         </>
     );
 }
