@@ -23,5 +23,9 @@
   "signup_title": "Inscrivez-vous à Influgo",
   "signup_action": "S'inscrire !",
   "signup_duplicate_email": "Compte existant avec cet e-mail",
-  "signup_log_account": "Connectez-vous à votre compte"
+  "signup_log_account": "Connectez-vous à votre compte",
+
+  "signout_action": "Se déconnecter",
+
+  "user_settings": "Configurations"
 }
